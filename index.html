@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Superbook</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <link href="//vjs.zencdn.net/7.8.2/video-js.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/default.css">
 </head>
 
@@ -30,14 +31,27 @@
                     <section class="modal-card-body">
                         <div class="columns">
                             <div class="thumb-wrapper column">
-                                <a v-on:click="play()" >
-                                    <img style="height: 200px" :src="selectedVideo.poster"><span class="thumbwrapperspan"></span> 
-                                </a>      
+                                <!--a v-on:click="play()">
+                                    <img style="height: 200px" :src="selectedVideo.poster"><span
+                                        class="thumbwrapperspan"></span>
+                                </a-->
+
+                                <video id="my-player" class="video-js" controls preload="auto"
+                                    :poster="selectedVideo.poster" data-setup='{"fluid": true}'>
+
+                                </video>
                             </div>
                             <div class="column">
                                 <span> {{ selectedVideo.description }}</span>
                             </div>
                         </div>
+
+                        <div class="columns">
+                            <div class="column">
+                            <button v-on:click="play()" class="button">Play on TV</button>
+                            </div>
+                        </div>
+
                         <!-- Content ... -->
                     </section>
 
@@ -47,6 +61,7 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//vjs.zencdn.net/7.8.2/video.min.js"></script>
     <script src="js/seasons.js"></script>
     <script src="js/app.js"></script>
 

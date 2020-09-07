@@ -44,13 +44,15 @@ var root = new Vue({
         },
         onClick: function (event) {
             this.getBrightcoveUrl(event.mid)
+
             this.showModal = true;
+
             var modal = document.getElementById("modal")
             modal.classList.add("is-active");
 
 
         },
-        getBrightcoveUrl: function (videoId) {
+        getBrightcoveUrl: async function (videoId) {
             fetch("https://edge.api.brightcove.com/playback/v1/accounts/1519050004001/videos/" + videoId, {
                 "headers": {
                     "Accept": "application/json;pk=BCpkADawqM1n-64tKO6BqPQEO3zIzzcHHvc_ueDMe3PhIlwIxLLYao6JHi8J6BE_nX1BhESuUfYak473bwW70JLo4sEMtaE6cL6vRyDZAjmm8niybKCUj1JYkvCvtxzke2AcgAcpMs-44QoK",
@@ -60,11 +62,25 @@ var root = new Vue({
             }).then(response => response.text())
                 .then(result => {
                     this.selectedVideo = JSON.parse(result)
-                    this.src = JSON.parse(result).sources.filter((w) => {
+                    source = JSON.parse(result).sources.filter((w) => {
                         return (w.container == "M2TS")
                     })[0]
+                    console.log(this.src.type)
+                    var options = {};
+                    var player = videojs('my-player');
+                    let src = source.src
+                    this.src = source
+                    let type = source.type
+                    player.src({
+                        src,
+                        type
+                    })
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => {
+                    console.log('error', error)
+
+                }
+                );
 
         },
         getEpisodes: function () {
