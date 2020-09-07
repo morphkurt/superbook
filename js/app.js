@@ -68,7 +68,7 @@ var root = new Vue({
                     console.log(this.src.type)
                     var options = {};
                     var player = videojs('my-player');
-                    let src = source.src.replace('http://','https://')
+                    let src = source.src.replace('http://','https://') + "&secure=true"
                     this.src = source
                     let type = source.type
                     player.src({
