@@ -65,7 +65,6 @@ var root = new Vue({
                     source = JSON.parse(result).sources.filter((w) => {
                         return (w.container == "M2TS")
                     })[0]
-                    console.log(this.src.type)
                     var options = {};
                     var player = videojs('my-player');
                     let src = source.src.replace('http://','https://') + "&secure=true"
@@ -78,7 +77,6 @@ var root = new Vue({
                 })
                 .catch(error => {
                     console.log('error', error)
-
                 }
                 );
 
@@ -95,7 +93,6 @@ var root = new Vue({
             fetch("https://us-en.superbook.cbn.com/a/episodes", requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    console.log(result)
                     this.seasons = JSON.parse(result);
                 })
                 .catch(error => console.log('error', error));
