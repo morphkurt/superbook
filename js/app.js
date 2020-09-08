@@ -3,22 +3,31 @@ var root = new Vue({
     el: "#root",
     data: {
         seasons: null,
-        x: 0,
-        y: 0,
+        config: {},
         dragging: false,
-        index: 0,
         src: "",
         selectedVideo: {},
         showModal: true,
         seasonEpisodes: []
     },
     mounted: function () {
-        this.getEpisodes();
+        let authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            this.getConfig(authToken)
+            var modal = document.getElementById("loginModal")
+            modal.classList.remove("is-active");
+        }
     },
     computed: {
 
     },
     methods: {
+        setIdToken(authToken) {
+            localStorage.setItem('authToken',authToken);
+            this.getConfig(authToken)
+            var modal = document.getElementById("loginModal")
+            modal.classList.remove("is-active");
+        },
         play: function () {
             let src = this.src.src
             let live = false;
@@ -39,23 +48,44 @@ var root = new Vue({
         },
         close: function () {
             this.showModal = false
-            var modal = document.getElementById("modal")
+            var modal = document.getElementById("playModal")
             modal.classList.remove("is-active");
         },
         onClick: function (event) {
             this.getBrightcoveUrl(event.mid)
-
             this.showModal = true;
-
-            var modal = document.getElementById("modal")
+            var modal = document.getElementById("playModal")
             modal.classList.add("is-active");
-
-
+        },
+        getConfig: function (authToken) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + authToken);
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+            fetch("https://6qfv11f2lk.execute-api.ap-southeast-2.amazonaws.com/default/HelloJWT", requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        throw new Error('Something went wrong');
+                    }
+                }).then(response => {
+                    this.config = response
+                    this.getEpisodes();
+                })
+                .catch(error => {
+                    var modal = document.getElementById("loginModal")
+                    modal.classList.add("is-active");
+                }
+                );
         },
         getBrightcoveUrl: async function (videoId) {
-            fetch("https://edge.api.brightcove.com/playback/v1/accounts/1519050004001/videos/" + videoId, {
+            fetch("https://edge.api.brightcove.com/playback/v1/accounts/" + this.config.bc_account_id + "/videos/" + videoId, {
                 "headers": {
-                    "Accept": "application/json;pk=BCpkADawqM1n-64tKO6BqPQEO3zIzzcHHvc_ueDMe3PhIlwIxLLYao6JHi8J6BE_nX1BhESuUfYak473bwW70JLo4sEMtaE6cL6vRyDZAjmm8niybKCUj1JYkvCvtxzke2AcgAcpMs-44QoK",
+                    "Accept": "application/json;pk=" + this.config.pk,
                     "Accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
                 },
                 "method": "GET"
@@ -67,7 +97,7 @@ var root = new Vue({
                     })[0]
                     var options = {};
                     var player = videojs('my-player');
-                    let src = source.src.replace('http://','https://') + "&secure=true"
+                    let src = source.src.replace('http://', 'https://') + "&secure=true"
                     this.src = source
                     let type = source.type
                     player.src({
@@ -83,14 +113,12 @@ var root = new Vue({
         },
         getEpisodes: function () {
             var myHeaders = new Headers();
-
             var requestOptions = {
                 method: 'GET',
                 headers: myHeaders,
                 redirect: 'follow'
             };
-
-            fetch("https://us-en.superbook.cbn.com/a/episodes", requestOptions)
+            fetch(this.config.episodeUri, requestOptions)
                 .then(response => response.text())
                 .then(result => {
                     this.seasons = JSON.parse(result);

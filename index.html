@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="1042718198537-u4f906hjk1hu7tioaauod19ifqu0ibkf.apps.googleusercontent.com">
+
+
     <title>Superbook</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
     <link href="//vjs.zencdn.net/7.8.2/video-js.min.css" rel="stylesheet">
@@ -20,7 +23,42 @@
                     </a>
                 </div>
             </div>
-            <div id="modal" class="modal">
+
+            <!-- Login modal-->
+            <div id="loginModal" class="modal is-active">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title"> Login via Google </p>
+                        <!--button v-on:click="close()" class="delete" aria-label="close"></button-->
+                    </header>
+
+                    <section class="modal-card-body">
+                        <div class="columns">
+                            <div class="column">
+                                <span>Please use your Gmail to sign in</span>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <!--a>
+                                    <img src="img/btn_google_signin_dark_focus_web.png"/>
+                                </a-->
+                                <div id="my-signin2"></div>
+
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Content ... -->
+                    </section>
+
+                </div>
+            </div>
+
+
+            <!-- play modal-->
+            <div id="playModal" class="modal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
@@ -28,6 +66,7 @@
 
                         <button v-on:click="close()" class="delete" aria-label="close"></button>
                     </header>
+
                     <section class="modal-card-body">
                         <div class="columns">
                             <div class="thumb-wrapper column">
@@ -48,7 +87,7 @@
 
                         <div class="columns">
                             <div class="column">
-                            <button v-on:click="play()" class="button">Play on TV</button>
+                                <button v-on:click="play()" class="button">Play on TV</button>
                             </div>
                         </div>
 
@@ -60,9 +99,30 @@
         </div>
     </section>
 
+    <script>
+        function onSuccess(googleUser) {           
+            root.setIdToken(googleUser.getAuthResponse().id_token);
+        }
+        function onFailure(error) {
+          console.log(error);
+        }
+        function renderButton() {
+          gapi.signin2.render('my-signin2', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+          });
+        }
+      </script>
+   
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="//vjs.zencdn.net/7.8.2/video.min.js"></script>
-    <script src="js/seasons.js"></script>
     <script src="js/app.js"></script>
 
 </body>
