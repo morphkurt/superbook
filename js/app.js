@@ -29,20 +29,17 @@ var root = new Vue({
             modal.classList.remove("is-active");
         },
         play: function () {
-            let src = this.src.src
-            let live = false;
-            let debugVideoHud = false;
-            fetch(`http://192.168.88.217:8060/launch/63218?live=${live}&autoCookie=false&debugVideoHud=${debugVideoHud}&url=${encodeURIComponent(src)}&fmt=Auto&drmParams=%7B%7D&headers=%7B%7D&metadata=%7B%22isFullHD%22%3Afalse%7D&cookies=%5B%5D`, {
+            let url = config.roku_url
+            let manifestUrl = encodeURIComponent(encodeURIComponent(src))
+            fetch(url+manifestUrl, {
                 "headers": {
                     "accept": "application/json, text/plain, */*",
                     "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
                     "cache-control": "no-cache",
                     "pragma": "no-cache",
                 },
-                "referrer": "http://devtools.web.roku.com/stream_tester/html/",
-                "referrerPolicy": "no-referrer-when-downgrade",
                 "body": null,
-                "method": "POST",
+                "method": "GET",
                 "mode": "no-cors"
             });
         },
