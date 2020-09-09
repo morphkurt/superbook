@@ -43,6 +43,7 @@ var root = new Vue({
                     'Authorization': 'Basic ' + credentials 
                 },
                 "body": null,
+                "credentials": "include",
                 "method": "GET",
                 "mode": "no-cors"
             });
