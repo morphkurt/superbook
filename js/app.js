@@ -40,11 +40,11 @@ var root = new Vue({
                     "cache-control": "no-cache",
                     "pragma": "no-cache",
                     "Content-Type": "text/plain",
-                    "Credentials": "same-origin",
                     'Authorization': 'Basic ' + credentials 
                 },
                 "body": null,
                 "method": "GET",
+                "credentials": "same-origin",
                 "mode": "no-cors"
             });
         },
