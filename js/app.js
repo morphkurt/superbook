@@ -29,7 +29,9 @@ var root = new Vue({
             modal.classList.remove("is-active");
         },
         play: function () {
+            let src = this.src.src
             let url = this.config.roku_url
+            let credentials = this.config.credentials
             let manifestUrl = encodeURIComponent(encodeURIComponent(src))
             fetch(url+manifestUrl, {
                 "headers": {
@@ -37,6 +39,8 @@ var root = new Vue({
                     "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
                     "cache-control": "no-cache",
                     "pragma": "no-cache",
+                    "Content-Type": "text/plain",
+                    'Authorization': 'Basic ' + credentials 
                 },
                 "body": null,
                 "method": "GET",
