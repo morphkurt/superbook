@@ -29,7 +29,7 @@ var root = new Vue({
             modal.classList.remove("is-active");
         },
         play: function () {
-            let url = config.roku_url
+            let url = this.config.roku_url
             let manifestUrl = encodeURIComponent(encodeURIComponent(src))
             fetch(url+manifestUrl, {
                 "headers": {
