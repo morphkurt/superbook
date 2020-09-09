@@ -36,16 +36,13 @@ var root = new Vue({
             fetch(url+manifestUrl, {
                 "headers": {
                     "accept": "application/json, text/plain, */*",
-                    "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                    "cache-control": "no-cache",
-                    "pragma": "no-cache",
                     "Content-Type": "text/plain",
                     'Authorization': 'Basic ' + credentials 
                 },
                 "body": null,
                 "method": "GET",
                 "credentials": "include",
-                "mode": "no-cors"
+                "mode": "cors"
             });
         },
         close: function () {
