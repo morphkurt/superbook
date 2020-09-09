@@ -40,6 +40,7 @@ var root = new Vue({
                     "cache-control": "no-cache",
                     "pragma": "no-cache",
                     "Content-Type": "text/plain",
+                    "Credentials": "same-origin",
                     'Authorization': 'Basic ' + credentials 
                 },
                 "body": null,
