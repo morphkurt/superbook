@@ -44,7 +44,7 @@ var root = new Vue({
                 },
                 "body": null,
                 "method": "GET",
-                "credentials": "same-origin",
+                "credentials": "include",
                 "mode": "no-cors"
             });
         },
