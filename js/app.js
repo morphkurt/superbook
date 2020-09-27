@@ -32,6 +32,7 @@ var root = new Vue({
             let src = this.src.src
             let url = this.config.roku_url
             var myHeaders = new Headers();
+            let authToken = localStorage.getItem('authToken');
             myHeaders.append("Authorization", "Bearer " + authToken);    
             var requestOptions = {
                 method: 'GET',
