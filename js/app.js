@@ -23,7 +23,7 @@ var root = new Vue({
     },
     methods: {
         setIdToken(authToken) {
-            localStorage.setItem('authToken',authToken);
+            localStorage.setItem('authToken', authToken);
             this.getConfig(authToken)
             var modal = document.getElementById("loginModal")
             modal.classList.remove("is-active");
@@ -31,18 +31,16 @@ var root = new Vue({
         play: function () {
             let src = this.src.src
             let url = this.config.roku_url
-            let credentials = this.config.credentials
+            let authToken = localStorage.getItem('authToken');
             let manifestUrl = encodeURIComponent(encodeURIComponent(src))
-            fetch(url+manifestUrl, {
+            fetch(url + manifestUrl, {
                 "headers": {
                     "accept": "application/json, text/plain, */*",
-                    "Content-Type": "text/plain",
-                    'Authorization': 'Basic ' + credentials 
+                    'Authorization': 'Bearer ' + authToken
                 },
                 "body": null,
                 "method": "GET",
-                "credentials": "include",
-                "mode": "cors"
+                "mode": "no-cors"
             });
         },
         close: function () {
