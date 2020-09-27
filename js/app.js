@@ -40,7 +40,6 @@ var root = new Vue({
                 },
                 "body": null,
                 "method": "GET",
-                "mode": "no-cors"
             });
         },
         close: function () {
