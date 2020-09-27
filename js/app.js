@@ -31,17 +31,16 @@ var root = new Vue({
         play: function () {
             let src = this.src.src
             let url = this.config.roku_url
+            var myHeaders = new Headers();
             let authToken = localStorage.getItem('authToken');
+            myHeaders.append("Authorization", "Bearer " + authToken);
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
             let manifestUrl = encodeURIComponent(encodeURIComponent(src))
-            fetch(url + manifestUrl, {
-                "headers": {
-                    "accept": "application/json, text/plain, */*",
-                    'Authorization': 'Bearer ' + authToken
-                },
-                "body": null,
-                "method": "GET",
-                "mode": "no-cors"
-            });
+            fetch(url + manifestUrl, requestOptions);
         },
         close: function () {
             this.showModal = false
