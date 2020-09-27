@@ -40,7 +40,18 @@ var root = new Vue({
                 redirect: 'follow'
             };
             let manifestUrl = encodeURIComponent(encodeURIComponent(src))
+<<<<<<< HEAD
             fetch(url + manifestUrl, requestOptions);
+=======
+            fetch(url + manifestUrl, {
+                "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    'Authorization': 'Bearer ' + authToken
+                },
+                "body": null,
+                "method": "GET",
+            });
+>>>>>>> d2eca2b9bf0925e419b9e7761d77d33d1d0350e1
         },
         close: function () {
             this.showModal = false
